@@ -16,10 +16,12 @@ app.get('/', function (req, res) {
     res.status(200).json({
         title: 'Engineer Challenge ', route: [{
             method: 'GET',
-            url: '/api/brewdogbeers'
+            url: '/api/brewdogbeers',
+            query: 'name - optional'
         }, {
             method: 'GET',
-            url: '/api/starwars'
+            url: '/api/starwars',
+            query: 'name - optional'
         }, {
             method: 'GET',
             url: '/api/itemselected'
