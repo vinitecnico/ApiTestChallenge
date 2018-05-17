@@ -8,9 +8,9 @@ module.exports = function (app) {
     app.get('/api/starwars', function (req, res) {
         let query = '';
         if (req.query && req.query.name) {
-            query += 'search=' + req.query.name
+            query += '?search=' + req.query.name
         }
-        
+
         const options = {
             uri: 'https://swapi.co/api/films/' + query,
             method: 'GET',
@@ -22,7 +22,7 @@ module.exports = function (app) {
 
         function callback(error, response, body) {
             if (!error && response.statusCode == 200) {
-                const request = _.map(body.results, function(x) {
+                const request = _.map(body.results, function (x) {
                     return {
                         id: x.episode_id,
                         name: x.title,
@@ -33,9 +33,16 @@ module.exports = function (app) {
                     }
                 });
                 const itemSelectedMiddleware = new ItemSelectedMiddleware();
-                res.status(200).json(responseFormat.success(itemSelectedMiddleware.getSelected(request, 'starwars')));
+                itemSelectedMiddleware.getSelected(request, 'starwars')
+                    .then(result => {
+                        res.status(200).json(responseFormat.success(result));
+                    })
+                    .catch(error => {
+                        defer.reject(responseFormat.error(error));
+                    });
+
             } else {
-                res.status(500).json(responseFormat.error(err.message));
+                res.status(500).json(responseFormat.error(error ? error.message : response.statusCode));
             }
         }
 

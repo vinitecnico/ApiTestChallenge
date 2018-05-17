@@ -22,7 +22,7 @@ module.exports = function (app) {
 
         function callback(error, response, body) {
             if (!error && response.statusCode == 200) {
-                const request = _.map(body, function(x) {
+                const request = _.map(body, function (x) {
                     return {
                         id: x.id,
                         name: x.name,
@@ -33,7 +33,13 @@ module.exports = function (app) {
                     }
                 });
                 const itemSelectedMiddleware = new ItemSelectedMiddleware();
-                res.status(200).json(responseFormat.success(itemSelectedMiddleware.getSelected(request, 'brewdogBeers')));
+                itemSelectedMiddleware.getSelected(request, 'brewdogBeers')
+                    .then(result => {
+                        res.status(200).json(responseFormat.success(result));
+                    })
+                    .catch(error => {
+                        defer.reject(responseFormat.error(error));
+                    });
             } else {
                 res.status(500).json(responseFormat.error(err.message));
             }
