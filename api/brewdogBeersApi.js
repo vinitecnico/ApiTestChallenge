@@ -1,6 +1,7 @@
 'use strict';
 const request = require('request');
 const responseFormat = require('../helper/responseFormatHelper');
+const ItemSelectedMiddleware = require('../middlewares/itemSelectedMiddleware');
 const _ = require('lodash');
 
 module.exports = function (app) {
@@ -27,10 +28,12 @@ module.exports = function (app) {
                         name: x.name,
                         description: x.description,
                         image_url: x.image_url,
-                        type: 'brewdogBeers'
+                        type: 'brewdogBeers',
+                        selected: false
                     }
                 });
-                res.status(200).json(responseFormat.success(request));
+                const itemSelectedMiddleware = new ItemSelectedMiddleware();
+                res.status(200).json(responseFormat.success(itemSelectedMiddleware.getSelected(request)));
             } else {
                 res.status(500).json(responseFormat.error(err.message));
             }
