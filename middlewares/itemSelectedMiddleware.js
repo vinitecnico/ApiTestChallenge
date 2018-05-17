@@ -35,7 +35,7 @@ class ItemSelectedMiddleware {
     getSelected(items, type) {
         const defer = Q.defer();
         if (!items || items.length == 0) {
-            defer.resolve([]);
+            defer.resolve(items);
         }
 
         this.getAll(type)
