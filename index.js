@@ -13,11 +13,26 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', function (req, res) {
-    res.status(200).json({ title: 'Engineer Challenge ', route: ['/api/brewdogbeers', '/api/starwars'] });
+    res.status(200).json({
+        title: 'Engineer Challenge ', route: [{
+            method: 'GET',
+            url: '/api/brewdogbeers'
+        }, {
+            method: 'GET',
+            url: '/api/starwars'
+        }, {
+            method: 'GET',
+            url: '/api/itemselected'
+        }, {
+            method: 'POST',
+            url: '/api/itemselected'
+        }]
+    });
 });
 
 const brewdogBeersApi = require('./api/brewdogBeersApi')(app);
 const starWarsApi = require('./api/starWarsApi')(app);
+const itemSelectedApi = require('./api/itemSelectedApi')(app);
 
 app.set('port', (process.env.PORT || 5000));
 
