@@ -33,7 +33,7 @@ module.exports = function (app) {
                     }
                 });
                 const itemSelectedMiddleware = new ItemSelectedMiddleware();
-                res.status(200).json(responseFormat.success(itemSelectedMiddleware.getSelected(request)));
+                res.status(200).json(responseFormat.success(itemSelectedMiddleware.getSelected(request, 'brewdogBeers')));
             } else {
                 res.status(500).json(responseFormat.error(err.message));
             }
