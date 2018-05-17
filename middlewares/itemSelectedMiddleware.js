@@ -23,10 +23,10 @@ class ItemSelectedMiddleware {
         const itemSelectedMongoDb = new ItemSelectedMongoDb();
         itemSelectedMongoDb.getAll(type)
             .then(response => {
-                defer.resolve(responseFormat.success(response));
+                defer.resolve(response);
             })
             .catch(error => {
-                defer.reject(responseFormat.error(error));
+                defer.reject(error);
             });
 
         return defer.promise;
@@ -34,23 +34,23 @@ class ItemSelectedMiddleware {
 
     getSelected(items, type) {
         const defer = Q.defer();
-        if(!items || items.length == 0) {
+        if (!items || items.length == 0) {
             defer.resolve([]);
         }
 
         this.getAll(type)
             .then(itemsSelected => {
-                if(!itemsSelected || itemsSelected.length == 0) {
-                    defer.resolve([]);
+                if (!itemsSelected || itemsSelected.length == 0) {
+                    defer.resolve(items);
+                } else {
+                    _.each(itemsSelected, function (x) {
+                        const index = _.findIndex(items, function (y) { return y.id == x.id });
+                        if (index && index >= 0) {
+                            items[index].selected = true;
+                        }
+                    });
+                    defer.resolve(items);
                 }
-
-                _.each(itemsSelected, function(x) {
-                    const index = _.findIndex(items, function(y) { return y.id == x.id});
-                    if(index && index >= 0) {
-                        items[index].selected = true;
-                    }
-                });
-                defer.resolve(items);
             })
             .catch(error => {
                 defer.reject(responseFormat.error(error));
