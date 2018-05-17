@@ -24,7 +24,7 @@ module.exports = function (app) {
             if (!error && response.statusCode == 200) {
                 const request = _.map(body, function (x) {
                     return {
-                        id: x.id,
+                        itemId: x.id,
                         name: x.name,
                         description: x.description,
                         image_url: x.image_url,

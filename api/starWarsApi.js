@@ -24,7 +24,7 @@ module.exports = function (app) {
             if (!error && response.statusCode == 200) {
                 const request = _.map(body.results, function (x) {
                     return {
-                        id: x.episode_id,
+                        itemId: x.episode_id,
                         name: x.title,
                         description: x.opening_crawl,
                         image_url: null,

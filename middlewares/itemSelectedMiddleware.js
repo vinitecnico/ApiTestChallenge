@@ -1,4 +1,5 @@
 const ItemSelectedMongoDb = require('../db/itemSelectedMongoDb');
+const _ = require('lodash');
 const Q = require('q');
 
 class ItemSelectedMiddleware {
@@ -44,8 +45,8 @@ class ItemSelectedMiddleware {
                     defer.resolve(items);
                 } else {
                     _.each(itemsSelected, function (x) {
-                        const index = _.findIndex(items, function (y) { return y.id == x.id });
-                        if (index && index >= 0) {
+                        const index = _.findIndex(items, function (y) { return y.itemId == x.itemId });
+                        if (!index && index >= 0) {
                             items[index].selected = true;
                         }
                     });
