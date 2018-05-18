@@ -2,6 +2,7 @@
 const request = require('request');
 const responseFormat = require('../helper/responseFormatHelper');
 const ItemSelectedMiddleware = require('../middlewares/itemSelectedMiddleware');
+const config = require('../config');
 const _ = require('lodash');
 
 module.exports = function (app) {
@@ -12,7 +13,7 @@ module.exports = function (app) {
         }
 
         const options = {
-            uri: 'https://swapi.co/api/films/' + query,
+            uri: config.starwars + query,
             method: 'GET',
             json: true,
             headers: {

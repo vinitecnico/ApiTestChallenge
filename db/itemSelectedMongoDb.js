@@ -13,13 +13,11 @@ class ItemSelectedMongoDb {
             .then(db => {
                 itemSelected.created_at = new moment().toDate();
                 itemSelected.updated_at = new moment().toDate();
-
-                var itemSelectedSchema = new ItemSelectedSchema(itemSelected);
-                db.model('itemSelected').findOneAndUpdate({ itemId: itemSelected.itemId, type: itemSelected.type}, itemSelectedSchema, { upsert: true }, function (err, result) {
+                db.model('itemSelected').findOneAndUpdate({ itemId: itemSelected.itemId, type: itemSelected.type}, itemSelected, { upsert: true }, function (err, result) {
                     if (err) {
-                        defer.reject(error.message);
+                        defer.reject(err.message);
                     } else {
-                        defer.resolve(result);
+                        defer.resolve(true);
                     }
                 });
             });

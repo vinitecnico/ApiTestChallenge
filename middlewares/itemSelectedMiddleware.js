@@ -46,7 +46,7 @@ class ItemSelectedMiddleware {
                 } else {
                     _.each(itemsSelected, function (x) {
                         const index = _.findIndex(items, function (y) { return y.itemId == x.itemId });
-                        if (!index && index >= 0) {
+                        if (index != -1) {
                             items[index].selected = true;
                         }
                     });
